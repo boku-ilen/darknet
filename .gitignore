@@ -55,3 +55,7 @@ include/darknet/
 uselib
 uselib_track
 darknet
+
+# Data Processing
+*.idea
+_DataProcessing/BboxExtractor/__pycache__/*
