@@ -10,13 +10,18 @@ import numpy as np
 class ImageProcessor:
 
     def __init__(self, conf):
-        self.conf = conf
+        # text file will be created for each image
+        # to save there the label and objects position
         self.text_file = None
 
         # get configurations
-        self.object_class = self.conf["data"]["label"]
-        self.hsv_range = np.array(self.conf["hsv"]["lower"]), np.array(self.conf["hsv"]["upper"])
-        self.dir_path = self.conf["data"]["dir"]
+        self.conf = conf
+        # label of detected objects
+        self.object_class = conf["data"]["label"]
+        # hsv color of detected objects
+        self.hsv_range = np.array(conf["hsv"]["lower"]), np.array(conf["hsv"]["upper"])
+        # data directory path
+        self.dir_path = conf["data"]["dir"]
 
     def save_bboxes(self, file_path):
 
@@ -25,33 +30,53 @@ class ImageProcessor:
 
         # read the image
         image = cv2.imread(file_path)
-        blurred = cv2.GaussianBlur(image, (11, 11), 0)
 
         # set a mask for the given colour
-        image_hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+        image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(image_hsv, self.hsv_range[0], self.hsv_range[1])
 
         # find contours in the masked image
         major = cv2.__version__.split('.')[0]
         if major == '3':
-            _, contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+            _, contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         else:
-            contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+            contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        # open the file
-        output_name = filename + ".txt"
-        self.text_file = open(self.dir_path + output_name, "w")
+        # create a name for txt file
+        # replace 2- with 1- at the beginning of the filename
+        new_filename = '1-' + filename[2:]
+        txt_name = new_filename + ".txt"
+        txt_dir = self.dir_path.replace('to_extract', 'to_train')
+        # open the txt file
+        self.text_file = open(txt_dir + txt_name, "w")
 
         # write line in the file
         for contour in contours:
+            # compute contour moments, which include area,
+            # its centroid, and information about its orientation
+            moments_dict = cv2.moments(contour)
+
             # create a bounding box if the area is greater than zero
-            if cv2.contourArea(contour) > 0:
+            if moments_dict["m00"] > 0:
+                # compute the centroid of the contour
+                centroid_x = int((moments_dict["m10"] / moments_dict["m00"]))
+                centroid_y = int((moments_dict["m01"] / moments_dict["m00"]))
+
+                # x, y point the left upper corner, so centroid must be used
                 x, y, w, h = cv2.boundingRect(contour)
-                self.write_line(x, y, w, h, image.shape)
+                self.write_line(centroid_x, centroid_y, w, h, image.shape)
+                # cv2.rectangle(image, (x, y), (x + w, y + h), (40, 40, 40), 2)
 
         # TODO: remove the last new line if needed
         # close the file
         self.text_file.close()
+
+        # cv2.imshow("mask", mask)
+        # cv2.imshow("image", image)
+        # cv2.waitKey(0)
+
+        # return image name
+        return new_filename
 
     # add line to the file with the object class and its bbox in floats values
     def write_line(self, x, y, w, h, image_shape):
