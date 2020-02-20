@@ -35,32 +35,15 @@ class BoundingBoxExtractor:
             self.conf = json.load(conf_file)
         # data directory path
         self.dir_path = self.conf["data"]["dir"]
-        # this file will be created once to save there
-        # names of all images to train
-        # started with 'data/retour/'
-        self.images_names_file_name = self.conf["images_names_file"]["name"]
-        # this path will be added before each
-        # image name saved in the file
-        self.image_path = self.conf["images_names_file"]["image_path"]
 
         # initialize image processing
         self.image_processor = ImageProcessor(self.conf)
-
-        # create a file with names of all images
-        images_names_file_dir = self.dir_path.replace('to_extract', 'to_train')
-        images_names_file = open(images_names_file_dir + self.images_names_file_name, "w")
 
         # set file paths
         file_paths = self.set_file_paths()
         for file_path in file_paths:
             # create txt files with the label and bounding boxes for each image
-            image_name = self.image_processor.save_bboxes(file_path)
-            # write names of all images in the file
-            if image_name != '':
-                images_names_file.write("{}{}.{}\n".format(self.image_path, image_name, self.conf["data"]["ext"]))
-
-        # close the file with names of all images
-        images_names_file.close()
+            self.image_processor.save_bboxes(file_path)
 
     def set_file_paths(self):
 

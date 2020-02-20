@@ -1,15 +1,11 @@
 {
   "data":{
-    "dir":"../../data/",
+    "dir":"data/try_to_extract/",
     "ext":"png",
     "label":0
   },
   "hsv":{
     "lower":[150, 255, 220],
     "upper":[150, 255, 255]
-  },
-  "images_names_file":{
-    "name":"retour_train.txt",
-    "image_path":"data/retour/"
   }
 }

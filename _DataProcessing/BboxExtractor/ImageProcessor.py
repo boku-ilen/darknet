@@ -61,7 +61,6 @@ class ImageProcessor:
             # compute contour moments, which include area,
             # its centroid, and information about its orientation
             moments_dict = cv2.moments(contour)
-            print(file_opened, moments_dict["m00"])
 
             # create a name for txt file if there is
             # at least one contour with minimal accepted area
@@ -83,8 +82,6 @@ class ImageProcessor:
                     self.write_line(centroid_x, centroid_y, w, h, image.shape)
                     cv2.rectangle(image, (x, y), (x + w, y + h), (40, 40, 40), 2)
 
-        # TODO: remove the last new line if needed
-
         #cv2.imshow("mask", mask)
         #cv2.imshow("image", image)
         #cv2.waitKey(0)
@@ -93,11 +90,6 @@ class ImageProcessor:
 
             # close the file
             self.text_file.close()
-
-            # return image name
-            return new_filename
-
-        return ''
 
     # add line to the file with the object class and its bbox in floats values
     def write_line(self, x, y, w, h, image_shape):
