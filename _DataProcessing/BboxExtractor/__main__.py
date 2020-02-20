@@ -1,4 +1,3 @@
-import os
 import glob
 import sys
 import json
@@ -57,7 +56,8 @@ class BoundingBoxExtractor:
             # create txt files with the label and bounding boxes for each image
             image_name = self.image_processor.save_bboxes(file_path)
             # write names of all images in the file
-            images_names_file.write("{}{}.{}\n".format(self.image_path, image_name, self.conf["data"]["ext"]))
+            if image_name != '':
+                images_names_file.write("{}{}.{}\n".format(self.image_path, image_name, self.conf["data"]["ext"]))
 
         # close the file with names of all images
         images_names_file.close()
