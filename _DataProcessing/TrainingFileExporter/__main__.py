@@ -35,10 +35,14 @@ class TrainingFileExporter:
         images_names_file = open(self.dir_path + self.images_names_file_name, "w")
 
         # set file paths
+        string = ""
         file_paths = self.set_file_paths()
         for file_path in file_paths:
             image_name = os.path.splitext(os.path.basename(file_path))[0]
-            images_names_file.write("{}{}.{}\n".format(self.image_path, image_name, self.conf["data"]["ext"]))
+            string += "{}{}.{}\n".format(self.image_path, image_name, self.conf["data"]["ext"])
+
+        # write teh string in file without the last new line
+        images_names_file.write(string[:-1])
 
         # close the file with names of all images
         images_names_file.close()
