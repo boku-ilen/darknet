@@ -1,5 +1,5 @@
-GPU=0
-CUDNN=0
+GPU=1
+CUDNN=1
 CUDNN_HALF=0
 OPENCV=0
 AVX=0
@@ -60,7 +60,7 @@ CC=gcc
 endif
 
 CPP=g++
-NVCC=/usr/local/cuda/bin/nvcc
+NVCC=nvcc
 OPTS=-Ofast
 LDFLAGS= -lm -pthread
 COMMON= -Iinclude/ -I3rdparty/stb/include
