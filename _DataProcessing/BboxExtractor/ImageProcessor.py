@@ -16,6 +16,8 @@ class ImageProcessor:
         # text file will be created for each image
         # to save there the label and objects position
         self.text_file = None
+        # string to be saved in the text file
+        self.string = ""
 
         # get configurations
         self.conf = conf
@@ -88,6 +90,8 @@ class ImageProcessor:
 
         if file_opened:
 
+            # write teh string in file without the last new line
+            self.text_file.write(self.string[:-1])
             # close the file
             self.text_file.close()
 
@@ -97,4 +101,4 @@ class ImageProcessor:
         y_center = float(y / image_shape[0])
         width = float(w / image_shape[1])
         height = float(h / image_shape[0])
-        self.text_file.write("{} {} {} {} {}\n".format(self.object_class, x_center, y_center, width, height))
+        self.string += "{} {} {} {} {}\n".format(self.object_class, x_center, y_center, width, height)

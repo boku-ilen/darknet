@@ -14,8 +14,6 @@ from BboxExtractor.ImageProcessor import ImageProcessor
 #     "label" - integer object number from 0 to (classes-1)
 #     "lower" - array with hsv lower range
 #     "upper" - array with hsv upper range
-#     "name" - txt file name needed for yolov3, e.g. "retour_train.txt"
-#     "image_path" - data path needed for yolov3, e.g. "data/retour/"
 class BoundingBoxExtractor:
 
     def __init__(self):
