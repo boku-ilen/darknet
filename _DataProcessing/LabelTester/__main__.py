@@ -32,7 +32,7 @@ class LabelTester:
         file_paths = self.set_file_paths(ext_text)
         for file_path in file_paths:
             if os.path.splitext(os.path.basename(file_path))[0] != "retour_train":
-                # create txt files with the label and bounding boxes for each image
+                # draw bounding boxes for each image
                 self.bbox_drawer.draw_bboxes(file_path)
 
     def set_file_paths(self, ext):
