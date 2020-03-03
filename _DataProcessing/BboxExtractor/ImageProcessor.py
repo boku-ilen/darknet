@@ -17,7 +17,7 @@ class ImageProcessor:
         # to save there the label and objects position
         self.text_file = None
         # string to be saved in the text file
-        self.string = ""
+        self.string = None
 
         # get configurations
         self.conf = conf
@@ -57,6 +57,7 @@ class ImageProcessor:
             contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         file_opened = False
+        self.string = ""
         # write line in the file
         for contour in contours:
 
