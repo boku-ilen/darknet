@@ -45,18 +45,19 @@ class BBoxDrawer:
 
             x_left = x_center - int(w/2)
             y_top = y_center - int(h/2)
-            cv2.rectangle(image, (x_left, y_top), (x_left + w, y_top + h), (40, 40, 40), 2)
+            cv2.rectangle(image, (x_left, y_top), (x_left + w, y_top + h), (255, 0, 0), 2)
 
-        # concatenate labeled images and rosa
-        rosa_dir = self.dir_path.replace('try_to_train', 'try_to_extract')
+        # concatenate labelled images and rosa
+        rosa_dir = self.dir_path.replace('to_train', 'to_extract')
         new_filename = '2-' + filename[2:]
         image_rosa = cv2.imread(rosa_dir + new_filename + '.' + self.ext)
-        concat_output_image = np.concatenate((image, image_rosa), axis=0)
+        concat_output_image = np.concatenate((image, image_rosa), axis=1)
 
         # save images with bounding box
-        labeled_dir = self.dir_path.replace('try_to_train', 'labeled_concat')
-        if not os.path.exists(labeled_dir):
-            os.makedirs(labeled_dir)
+        labelled_dir = self.dir_path.replace('to_train', 'labelled_concat')
+        if not os.path.exists(labelled_dir):
+            print('make a dir {}'.format(labelled_dir))
+            os.makedirs(labelled_dir)
         labeled_name = filename + '.' + self.ext
-        path = labeled_dir + labeled_name
+        path = labelled_dir + labeled_name
         cv2.imwrite(path, concat_output_image)
