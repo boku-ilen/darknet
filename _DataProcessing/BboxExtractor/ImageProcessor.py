@@ -77,13 +77,10 @@ class ImageProcessor:
                 # create a bounding box if the area is greater than x
                 if moments_dict["m00"] >= MIN_CONTOUR_AREA:
                     # compute the centroid of the contour
-                    centroid_x = int((moments_dict["m10"] / moments_dict["m00"]))
-                    centroid_y = int((moments_dict["m01"] / moments_dict["m00"]))
 
-                    # x, y point the left upper corner, so centroid must be used
                     x, y, w, h = cv2.boundingRect(contour)
-                    self.write_line(centroid_x, centroid_y, w, h, image.shape)
-                    cv2.rectangle(image, (x, y), (x + w, y + h), (40, 40, 40), 2)
+                    self.write_line(x, y, w, h, image.shape)
+                    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         #cv2.imshow("mask", mask)
         #cv2.imshow("image", image)
@@ -91,15 +88,19 @@ class ImageProcessor:
 
         if file_opened:
 
-            # write teh string in file without the last new line
+            # write the string in file without the last new line
             self.text_file.write(self.string[:-1])
             # close the file
             self.text_file.close()
 
+        else:
+            print("no bounding box found for the image: {}, no txt file created".format(filename))
+
     # add line to the file with the object class and its bbox in floats values
     def write_line(self, x, y, w, h, image_shape):
-        x_center = float(x / image_shape[1])
-        y_center = float(y / image_shape[0])
+
         width = float(w / image_shape[1])
         height = float(h / image_shape[0])
+        x_center = float(x / image_shape[1]) + float(width/2)
+        y_center = float(y / image_shape[0]) + float(height/2)
         self.string += "{} {} {} {} {}\n".format(self.object_class, x_center, y_center, width, height)
