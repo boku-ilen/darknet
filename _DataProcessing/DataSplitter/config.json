@@ -1,0 +1,7 @@
+{
+  "data":{
+    "dir":"../path/_dataset_wind_to_extract/",
+    "valid_dir":"../path/_valid_dataset_wind_to_extract/",
+    "ext":"png"
+  }
+}
