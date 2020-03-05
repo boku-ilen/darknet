@@ -1,7 +1,9 @@
 {
   "data":{
-    "dir":"../path/_dataset_wind_to_extract/",
-    "valid_dir":"../path/_valid_dataset_wind_to_extract/",
-    "ext":"png"
+    "dir":"../path/_dataset_wind_to_train/",
+    "valid_dir":"../path/_dataset_wind_to_train/_valid_dataset_wind_to_train/",
+    "train_dir":"../path/_dataset_wind_to_train/_train_dataset_wind_to_train/",
+    "ext":"png",
+    "text_ext":"txt"
   }
 }
