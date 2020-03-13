@@ -1445,6 +1445,13 @@ void calc_anchors(char *datacfg, int num_of_clusters, int width, int height, int
     getchar();
 }
 
+static void get_img_name(char *img_name)
+{
+    char *p = strrchr(img_name, '/');
+    eliminate_bdd(p, ".png");
+    eliminate_bdd(p, "/");
+    strcpy(img_name, p);
+}
 
 void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filename, float thresh,
     float hier_thresh, int dont_show, int ext_output, int save_labels, char *outfile, int letter_box, int benchmark_layers)
@@ -1470,6 +1477,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     srand(2222222);
     char buff[256];
     char *input = buff;
+    char *img_name = buff;
     char *json_buf = NULL;
     int json_image_id = 0;
     FILE* json_file = NULL;
@@ -1524,12 +1532,21 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             else diounms_sort(dets, nboxes, l.classes, nms, l.nms_kind, l.beta_nms);
         }
         draw_detections_v3(im, dets, nboxes, thresh, names, alphabet, l.classes, ext_output);
-        save_image(im, "predictions");
+
+	strncpy(img_name, input, 256);
+	get_img_name(img_name);
+	strcat(img_name, "_predicted");
+	save_image(im, img_name);
+        
+        //save_image(im, "predictions");
+
         if (!dont_show) {
-            show_image(im, "predictions");
+            show_image(im, img_name);
+            //show_image(im, "predictions");
         }
 
         if (json_file) {
+            printf("Using json file");
             if (json_buf) {
                 char *tmp = ", \n";
                 fwrite(tmp, sizeof(char), strlen(tmp), json_file);
@@ -1544,6 +1561,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         // pseudo labeling concept - fast.ai
         if (save_labels)
         {
+            printf("Saving labels");
             char labelpath[4096];
             replace_image_to_label(input, labelpath);
 
