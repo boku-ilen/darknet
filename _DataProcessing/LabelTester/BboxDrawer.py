@@ -45,7 +45,7 @@ class BBoxDrawer:
 
             x_left = x_center - int(w/2)
             y_top = y_center - int(h/2)
-            cv2.rectangle(image, (x_left, y_top), (x_left + w, y_top + h), (255, 0, 0), 2)
+            cv2.rectangle(image, (x_left, y_top), (x_left + w, y_top + h), (0, 0, 255), 2)
 
         # concatenate labelled images and rosa
         rosa_dir = self.dir_path.replace('to_train', 'to_extract')
