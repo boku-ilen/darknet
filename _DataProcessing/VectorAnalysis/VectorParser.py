@@ -3,7 +3,13 @@ import os.path
 
 FILE_PATH = '../../../../../Praktikum_data/workshops/'
 ALL_DATA = 'all_data/'
+
+# uncomment for parsing location.impression
 VECTORS = 'vectors/vectors_'
+
+# uncomment for parsing assetpos/assetpositions
+#VECTORS = 'assetpos/assetpositions_'
+
 FILENAME = '0.01-191415.json'
 REPLACE_LAST_OCCURRENCE = ', {"model"'
 
@@ -23,8 +29,16 @@ def read_json():
 def save_json(data_obj):
     vector_data = []
     for idx in range(len(data_obj)):
+
+        # uncomment for parsing location.impression
         if data_obj[idx]['model'] == 'location.impression':
             vector_data.append(data_obj[idx])
+
+        # uncomment for parsing assetpos/assetpositions
+        #if data_obj[idx]['model'] == 'assetpos.assetpositions':
+            #if data_obj[idx]['fields']['asset_type'] != 1:
+                #vector_data.append(data_obj[idx])
+
     filename = FILE_PATH + VECTORS + FILENAME
     if not os.path.isfile(filename):
         with open(filename, 'w') as file_write:
