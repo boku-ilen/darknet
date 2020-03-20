@@ -68,3 +68,4 @@ _DataProcessing/LabelTester/__pycache__/*
 _DataProcessing/.ipynb_checkpoints
 _3DOFAnalysis/*.json
 _3DOFAnalysis/.ipynb_checkpoints
+!_3DOFAnalysis/*.png
