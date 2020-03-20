@@ -56,9 +56,15 @@ uselib
 uselib_track
 darknet
 
+# Added files
+bad.list
+darknet53.conv.74
+cfg/yolov3_5l-retour.cfg
+
 # Data Processing
 *.idea
 _DataProcessing/BboxExtractor/__pycache__/*
 _DataProcessing/LabelTester/__pycache__/*
-_DataProcessing/VectorAnalysis/.ipynb_checkpoints
 _DataProcessing/.ipynb_checkpoints
+_3DOFAnalysis/*.json
+_3DOFAnalysis/.ipynb_checkpoints
