@@ -63,6 +63,10 @@ cfg/yolov3_5l-retour.cfg
 
 # Data Processing
 *.idea
+_DataProcessing/DataSetGenerator/__pycache__/*
+_DataProcessing/DataSetGenerator/GeneratorTools/__pycache__/*
+_DataProcessing/DataSetGenerator/logs/*
+_DataProcessing/DataSetGenerator/logging.conf
 _DataProcessing/BboxExtractor/__pycache__/*
 _DataProcessing/LabelTester/__pycache__/*
 _DataProcessing/.ipynb_checkpoints
