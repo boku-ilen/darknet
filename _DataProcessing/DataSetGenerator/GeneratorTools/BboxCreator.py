@@ -50,18 +50,18 @@ class BboxCreator:
     def save_bboxes(self, file_path):
 
         # save filename for naming txt file later
-        filename = os.path.splitext(os.path.basename(file_path))[0]
-        logging.info('creating bboxes for {}'.format(filename))
+        supporting_filename = os.path.splitext(os.path.basename(file_path))[0]
+        logging.info('creating bounding boxes for {}'.format(supporting_filename))
 
         # replace 2- with 1- at the beginning of the filename
-        new_filename = '1-' + filename[2:]
+        new_filename = '1-' + supporting_filename[2:]
         text_name = new_filename + self.text_extension
 
         # read a supporting image
-        image = cv2.imread(file_path)
+        supporting_image = cv2.imread(file_path)
 
         # set a mask for the given colour
-        image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        image_hsv = cv2.cvtColor(supporting_image, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(image_hsv, self.hsv_range[0], self.hsv_range[1])
         # dilate the mask with a small kernel
         kernel = np.ones((2, 2), np.uint8)
@@ -85,20 +85,20 @@ class BboxCreator:
 
             # create a name for txt file if there is
             # at least one contour with minimal accepted area
-            if not file_opened and moments_dict["m00"] >= MIN_CONTOUR_AREA:
+            if not file_opened and moments_dict['m00'] >= MIN_CONTOUR_AREA:
 
                     # open the txt file
-                    self.text_file = open(self.data_path + text_name, "w")
+                    self.text_file = open(self.data_path + text_name, 'w')
                     file_opened = True
 
             if file_opened:
                 # create a bounding box if the area is greater or equal minimum
-                if moments_dict["m00"] >= MIN_CONTOUR_AREA:
+                if moments_dict['m00'] >= MIN_CONTOUR_AREA:
                     # compute the centroid of the contour
 
                     x, y, w, h = cv2.boundingRect(contour)
-                    self.write_line(x, y, w, h, image.shape)
-                    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+                    self.write_line(x, y, w, h, supporting_image.shape)
+                    cv2.rectangle(supporting_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         #cv2.imshow("mask", mask)
         #cv2.imshow("image", image)
@@ -112,7 +112,7 @@ class BboxCreator:
             self.text_file.close()
 
         else:
-            logging.info('No bounding box found for the image: {}, no txt file created'.format(filename))
+            logging.info('No bounding box found for the image: {}, no txt file created'.format(supporting_filename))
 
     # add line to the file with the object class and its bbox in floats values
     def write_line(self, x, y, w, h, image_shape):
@@ -121,4 +121,4 @@ class BboxCreator:
         height = float(h / image_shape[0])
         x_center = float(x / image_shape[1]) + float(width/2)
         y_center = float(y / image_shape[0]) + float(height/2)
-        self.string += "{} {} {} {} {}\n".format(self.label, x_center, y_center, width, height)
+        self.string += '{} {} {} {} {}\r'.format(self.label, x_center, y_center, width, height)

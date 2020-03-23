@@ -6,8 +6,6 @@ HSV_UPPER = [152, 255, 255]
 
 class ParserManager:
 
-    used_stream = None
-
     def __init__(self):
 
         self.parser_arguments = self.parse()
@@ -30,6 +28,9 @@ class ParserManager:
                             help='absolute or relative path to your folder with images for your set of data, they '
                                  'will be later split into training and validation data sets',
                             type=str, default='../_test_data/data/')
+        parser.add_argument('-c', '--concatenation_path',
+                            help='absolute or relative path to your folder where concatenated images will be saved',
+                            type=str, default='../_test_data/concatenated/')
         parser.add_argument('-t', '--training_data_path',
                             help='absolute or relative path to your folder where your images '
                                  'for training data sets will be moved to',
