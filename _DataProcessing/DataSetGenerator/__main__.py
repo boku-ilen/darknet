@@ -3,12 +3,11 @@ import os
 import sys
 import glob
 
-from ParserManager import ParserManager
-from GeneratorTools.BboxCreator import BboxCreator
-from GeneratorTools.BboxDrawer import BboxDrawer
+from DataSetGenerator.ParserManager import ParserManager
+from DataSetGenerator.GeneratorTools.BboxCreator import BboxCreator
+from DataSetGenerator.GeneratorTools.BboxDrawer import BboxDrawer
 
 
-# TODO: repair logging configuration
 # configure logging
 logger = logging.getLogger('MainLogger')
 

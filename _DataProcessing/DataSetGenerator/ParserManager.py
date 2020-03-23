@@ -23,22 +23,22 @@ class ParserManager:
         parser.add_argument('-s,', '--supporting_path',
                             help='absolute or relative path to your folder with supporting images, '
                                  'which are used to extract the bounding boxes',
-                            type=str, default='../_test_data/supporting_data/')
+                            type=str, default='_test_data/supporting_data/')
         parser.add_argument('-d', '--data_path',
                             help='absolute or relative path to your folder with images for your set of data, they '
                                  'will be later split into training and validation data sets',
-                            type=str, default='../_test_data/data/')
+                            type=str, default='_test_data/data/')
         parser.add_argument('-c', '--concatenation_path',
                             help='absolute or relative path to your folder where concatenated images will be saved',
-                            type=str, default='../_test_data/concatenated/')
+                            type=str, default='_test_data/concatenated/')
         parser.add_argument('-t', '--training_data_path',
                             help='absolute or relative path to your folder where your images '
                                  'for training data sets will be moved to',
-                            type=str, default='../_test_data/data/training')
+                            type=str, default='_test_data/data/training')
         parser.add_argument('-v', '--validation_data_path',
                             help='absolute or relative path to your folder where your images '
                                  'for validation data sets will be moved to',
-                            type=str, default='../_test_data/data/validation')
+                            type=str, default='_test_data/data/validation')
         parser.add_argument('-i', '--image_extension',
                             help='extension of your images, default: .png', type=str, default='.png')
         parser.add_argument('-x', '--text_extension',
