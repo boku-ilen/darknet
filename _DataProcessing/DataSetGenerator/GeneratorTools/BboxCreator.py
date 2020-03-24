@@ -100,6 +100,7 @@ class BboxCreator:
                     self.write_line(x, y, w, h, supporting_image.shape)
                     cv2.rectangle(supporting_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
+        # TODO: add showing images and enable removing it from data set on click
         #cv2.imshow("mask", mask)
         #cv2.imshow("image", image)
         #cv2.waitKey(0)

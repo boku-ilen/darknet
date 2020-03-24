@@ -73,11 +73,15 @@ class BboxDrawer:
 
         # concatenate images for training/validation with drawn bounding boxes and supporting images
         supporting_filename = '2-' + filename[2:]
+
         # check if supporting image is available
-        if os.path.isfile(self.supporting_path + supporting_filename + self.image_extension):
-            supporting_image = cv2.imread(self.supporting_path + supporting_filename + self.image_extension)
+        supporting_image_path = self.supporting_path + supporting_filename + self.image_extension
+        if os.path.isfile(supporting_image_path):
+            # concatenate images
+            supporting_image = cv2.imread(supporting_image_path)
             concat_output_image = np.concatenate((image, supporting_image), axis=1)
         else:
+            # save only one image with bounding boxes, without concatenation
             logging.warning('supporting image is not available, skipping concatenation for: {}'.format(filename))
             concat_output_image = image
 

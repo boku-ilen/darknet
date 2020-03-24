@@ -6,6 +6,7 @@ import glob
 from DataSetGenerator.ParserManager import ParserManager
 from DataSetGenerator.GeneratorTools.BboxCreator import BboxCreator
 from DataSetGenerator.GeneratorTools.BboxDrawer import BboxDrawer
+from DataSetGenerator.GeneratorTools.DataSplitter import DataSplitter
 
 
 # configure logging
@@ -44,6 +45,7 @@ class DataSetGenerator:
         self.label = parser.parser_arguments.label
         self.hsv_lower = parser.parser_arguments.hsv_lower
         self.hsv_upper = parser.parser_arguments.hsv_upper
+        self.validation_split = parser.parser_arguments.validation_split
 
     def run(self):
         logging.info('Command: {}'.format(self.command))
@@ -85,6 +87,7 @@ class DataSetGenerator:
                 filename = os.path.splitext(os.path.basename(file_path))[0]
 
                 # except retour_train file
+                # TODO: exclude retour_train file when setting paths
                 if filename != 'retour_train':
                     # check if image with the same name is available
                     if os.path.isfile(self.data_path + filename + self.image_extension):
@@ -93,9 +96,27 @@ class DataSetGenerator:
                     else:
                         logging.warning('{} will not be saved, missing an image with the same name'.format(filename))
 
+        # moves images and text files from data set
+        # into two folders: for training and validation data.
+        # If a text file for the image is missing,
+        # the image remains in the original folder
+        elif self.command == 'split':
+
+            # initialize the data splitter
+            data_splitter = DataSplitter(self.data_path, self.training_data_path, self.validation_data_path,
+                                         self.image_extension, self.text_extension)
+
+            # set file paths to all the text files
+            file_paths = self.set_file_paths(self.data_path, self.text_extension)
+
+            # split data
+            logging.info('splitting {} files into training and validation data'.format(len(file_paths)))
+            data_splitter.split(file_paths, self.validation_split)
+
     @staticmethod
     def set_file_paths(path, ext):
 
+        # TODO: exclude retour_train file
         # set data path for all files with the given extension
         data_path = path + ext.replace('.', '*')
         file_paths = glob.glob(data_path)

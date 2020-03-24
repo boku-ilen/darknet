@@ -34,11 +34,11 @@ class ParserManager:
         parser.add_argument('-t', '--training_data_path',
                             help='absolute or relative path to your folder where your images '
                                  'for training data sets will be moved to',
-                            type=str, default='_test_data/data/training')
+                            type=str, default='_test_data/data/training/')
         parser.add_argument('-v', '--validation_data_path',
                             help='absolute or relative path to your folder where your images '
                                  'for validation data sets will be moved to',
-                            type=str, default='_test_data/data/validation')
+                            type=str, default='_test_data/data/validation/')
         parser.add_argument('-i', '--image_extension',
                             help='extension of your images, default: .png', type=str, default='.png')
         parser.add_argument('-x', '--text_extension',
@@ -51,6 +51,9 @@ class ParserManager:
         parser.add_argument('-hu', '--hsv_upper',
                             help='lower border of hsv values, which will be accepted as blobs for bounding boxes, '
                                  'default: {}'.format(HSV_UPPER), nargs='+', type=int)
+        parser.add_argument('-vs', '--validation_split',
+                            help='the size of the validation data split, default: 0.2 '
+                                 'which means 20% validation and 80% training data', type=float, default=0.2)
 
         parser_arguments = parser.parse_args()
 
