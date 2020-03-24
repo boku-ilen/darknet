@@ -3,7 +3,8 @@ import os
 import sys
 import glob
 
-from DataSetGenerator.ParserManager import ParserManager
+
+from DataSetGenerator import config
 from DataSetGenerator.GeneratorTools.BboxCreator import BboxCreator
 from DataSetGenerator.GeneratorTools.BboxDrawer import BboxDrawer
 from DataSetGenerator.GeneratorTools.DataSplitter import DataSplitter
@@ -33,23 +34,23 @@ class DataSetGenerator:
     def __init__(self):
 
         # parse arguments, for meaning see --help
-        parser = ParserManager()
-        logging.info('Parsing arguments: {}'.format(parser.parser_arguments))
-        self.command = parser.parser_arguments.command
-        self.supporting_path = parser.parser_arguments.supporting_path
-        self.data_path = parser.parser_arguments.data_path
-        self.concatenation_path = parser.parser_arguments.concatenation_path
-        self.training_data_path = parser.parser_arguments.training_data_path
-        self.validation_data_path = parser.parser_arguments.validation_data_path
-        self.image_extension = parser.parser_arguments.image_extension
-        self.text_extension = parser.parser_arguments.text_extension
-        self.label = parser.parser_arguments.label
-        self.hsv_lower = parser.parser_arguments.hsv_lower
-        self.hsv_upper = parser.parser_arguments.hsv_upper
-        self.validation_split = parser.parser_arguments.validation_split
-        self.export_filename = parser.parser_arguments.export_filename
-        self.export_path = parser.parser_arguments.export_path
-        self.export_data_set = parser.parser_arguments.export_data_set
+        parser_arguments = config.parse_arguments()
+        logging.info('Parsing arguments: {}'.format(parser_arguments))
+        self.command = parser_arguments.command
+        self.supporting_path = parser_arguments.supporting_path
+        self.data_path = parser_arguments.data_path
+        self.concatenation_path = parser_arguments.concatenation_path
+        self.training_data_path = parser_arguments.training_data_path
+        self.validation_data_path = parser_arguments.validation_data_path
+        self.image_extension = parser_arguments.image_extension
+        self.text_extension = parser_arguments.text_extension
+        self.label = parser_arguments.label
+        self.hsv_lower = parser_arguments.hsv_lower
+        self.hsv_upper = parser_arguments.hsv_upper
+        self.validation_split = parser_arguments.validation_split
+        self.export_filename = parser_arguments.export_filename
+        self.export_path = parser_arguments.export_path
+        self.export_data_set = parser_arguments.export_data_set
 
     def run(self):
         logging.info('Command: {}'.format(self.command))
