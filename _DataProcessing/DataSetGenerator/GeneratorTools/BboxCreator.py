@@ -27,18 +27,7 @@ MIN_CONTOUR_AREA = 7.0
 class BboxCreator:
 
     def __init__(self, supporting_path, data_path, text_extension, label, hsv_lower, hsv_upper):
-        # text file will be created for each image
-        # to save there the label and objects position
-        self.text_file = None
-        # string to be saved in the text file
-        self.string = None
 
-        # extension of text files, which will be created
-        self.text_extension = text_extension
-        # label of detected objects
-        self.label = label
-        # hsv color of detected objects
-        self.hsv_range = np.array(hsv_lower), np.array(hsv_upper)
         # directory path, where images used for
         # bounding boxes creation are placed
         self.supporting_path = supporting_path
@@ -46,6 +35,18 @@ class BboxCreator:
         # as training and validation sets of data,
         # where also text files with bounding boxes will be saved
         self.data_path = data_path
+        # extension of text files, which will be created
+        self.text_extension = text_extension
+        # label of detected objects
+        self.label = label
+        # hsv color of detected objects
+        self.hsv_range = np.array(hsv_lower), np.array(hsv_upper)
+
+        # text file will be created for each image
+        # to save there the label and objects position
+        self.text_file = None
+        # string to be saved in the text file
+        self.string = None
 
     def save_bboxes(self, file_path):
 

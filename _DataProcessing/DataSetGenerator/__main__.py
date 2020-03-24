@@ -7,6 +7,7 @@ from DataSetGenerator.ParserManager import ParserManager
 from DataSetGenerator.GeneratorTools.BboxCreator import BboxCreator
 from DataSetGenerator.GeneratorTools.BboxDrawer import BboxDrawer
 from DataSetGenerator.GeneratorTools.DataSplitter import DataSplitter
+from DataSetGenerator.GeneratorTools.FinalExporter import FinalExporter
 
 
 # configure logging
@@ -46,6 +47,9 @@ class DataSetGenerator:
         self.hsv_lower = parser.parser_arguments.hsv_lower
         self.hsv_upper = parser.parser_arguments.hsv_upper
         self.validation_split = parser.parser_arguments.validation_split
+        self.export_filename = parser.parser_arguments.export_filename
+        self.export_path = parser.parser_arguments.export_path
+        self.export_data_set = parser.parser_arguments.export_data_set
 
     def run(self):
         logging.info('Command: {}'.format(self.command))
@@ -86,15 +90,12 @@ class DataSetGenerator:
                 # save a filename without an extension
                 filename = os.path.splitext(os.path.basename(file_path))[0]
 
-                # except retour_train file
-                # TODO: exclude retour_train file when setting paths
-                if filename != 'retour_train':
-                    # check if image with the same name is available
-                    if os.path.isfile(self.data_path + filename + self.image_extension):
-                        # draw bounding boxes for each image
-                        bbox_drawer.draw_bboxes(filename)
-                    else:
-                        logging.warning('{} will not be saved, missing an image with the same name'.format(filename))
+                # check if image with the same name is available
+                if os.path.isfile(self.data_path + filename + self.image_extension):
+                    # draw bounding boxes for each image
+                    bbox_drawer.draw_bboxes(filename)
+                else:
+                    logging.warning('{} will not be saved, missing an image with the same name'.format(filename))
 
         # moves images and text files from data set
         # into two folders: for training and validation data.
@@ -113,10 +114,31 @@ class DataSetGenerator:
             logging.info('splitting {} files into training and validation data'.format(len(file_paths)))
             data_splitter.split(file_paths, self.validation_split)
 
+        # creates a text file with the list of all paths
+        # to images which should be used for training or validation.
+        # Images paths must not be the same as local,
+        # they should fit to the darknet structure
+        elif self.command == 'export':
+
+            # set chosen data path
+            data_set_path = self.training_data_path
+            if self.export_data_set == 'validation':
+                data_set_path = self.validation_data_path
+
+            # initialize the final file exporter
+            final_exporter = FinalExporter(self.image_extension, self.text_extension)
+
+            # set file paths to all the text files
+            file_paths = self.set_file_paths(data_set_path, self.text_extension)
+
+            # export text file with all images paths
+            logging.info('exporting a text file: {}'.format(self.export_filename))
+            final_exporter.export(file_paths, data_set_path, self.export_filename,
+                                  self.export_path, self.export_data_set)
+
     @staticmethod
     def set_file_paths(path, ext):
 
-        # TODO: exclude retour_train file
         # set data path for all files with the given extension
         data_path = path + ext.replace('.', '*')
         file_paths = glob.glob(data_path)

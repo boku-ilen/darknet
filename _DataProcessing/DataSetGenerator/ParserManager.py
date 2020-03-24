@@ -54,6 +54,17 @@ class ParserManager:
         parser.add_argument('-vs', '--validation_split',
                             help='the size of the validation data split, default: 0.2 '
                                  'which means 20% validation and 80% training data', type=float, default=0.2)
+        parser.add_argument('-e', '--export_filename',
+                            help='name of a text file which will be created to list all images for training '
+                                 'or validation. The file will be saved in the folder where listed images '
+                                 'are currently placed. default=retour', type=str, default='retour')
+        parser.add_argument('-ep', '--export_path',
+                            help='path where the images for training or validation will be placed in the darknet '
+                                 'structure. Remember to set different paths for training and validation data! '
+                                 'default=data/retour/', type=str, default='data/retour/')
+        parser.add_argument('-es', '--export_data_set',
+                            help='name of data set for which the final text file should be exporter, '
+                                 'default=training', type=str, default='training', choices=['training', 'validation'])
 
         parser_arguments = parser.parse_args()
 

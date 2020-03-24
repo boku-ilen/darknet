@@ -20,10 +20,6 @@ class DataSplitter:
 
     def __init__(self, data_path, training_data_path, validation_data_path, image_extension, text_extension):
 
-        # extension of images
-        self.image_extension = image_extension
-        # extension of text files
-        self.text_extension = text_extension
         # directory path with images and text files which
         # will be used as training and validation sets of data
         self.data_path = data_path
@@ -31,6 +27,10 @@ class DataSplitter:
         self.training_data_path = training_data_path
         # directory path where validation data will be moved to
         self.validation_data_path = validation_data_path
+        # extension of images
+        self.image_extension = image_extension
+        # extension of text files
+        self.text_extension = text_extension
 
     # images without txt file will remain in the original folder
     def split(self, file_paths, validation_split):
@@ -51,29 +51,25 @@ class DataSplitter:
             txt_filename = os.path.basename(file_path)
             filename = os.path.splitext(txt_filename)[0]
             logging.debug('moving {} to the validation data folder: {}'.format(filename, self.validation_data_path))
-            # TODO: exclude retour_train file when setting paths
-            if filename != "retour_train":
-                image_path = self.data_path + filename + self.image_extension
-                # check if an image is available
-                if os.path.isfile(image_path):
-                    os.rename(image_path, self.validation_data_path + filename + self.image_extension)
-                    os.rename(file_path, self.validation_data_path + txt_filename)
-                else:
-                    logging.warning('an image for the existing file is not available: {}'
-                                    'files will not be moved to the validation data'.format(filename))
+            image_path = self.data_path + filename + self.image_extension
+            # check if an image is available
+            if os.path.isfile(image_path):
+                os.rename(image_path, self.validation_data_path + filename + self.image_extension)
+                os.rename(file_path, self.validation_data_path + txt_filename)
+            else:
+                logging.warning('an image for the existing file is not available: {}'
+                                'files will not be moved to the validation data'.format(filename))
 
         # move 80% of data to training data folder
         for file_path in file_paths[val_data_length:]:
             txt_filename = os.path.basename(file_path)
             filename = os.path.splitext(txt_filename)[0]
             logging.debug('moving {} to the training data folder: {}'.format(filename, self.training_data_path))
-            # TODO: exclude retour_train file when setting paths
-            if filename != "retour_train":
-                image_path = self.data_path + filename + self.image_extension
-                # check if an image is available
-                if os.path.isfile(image_path):
-                    os.rename(image_path, self.training_data_path + filename + self.image_extension)
-                    os.rename(file_path, self.training_data_path + txt_filename)
-                else:
-                    logging.warning('an image for the existing file is not available: {}, '
-                                    'files will not be moved to the training data'.format(filename))
+            image_path = self.data_path + filename + self.image_extension
+            # check if an image is available
+            if os.path.isfile(image_path):
+                os.rename(image_path, self.training_data_path + filename + self.image_extension)
+                os.rename(file_path, self.training_data_path + txt_filename)
+            else:
+                logging.warning('an image for the existing file is not available: {}, '
+                                'files will not be moved to the training data'.format(filename))

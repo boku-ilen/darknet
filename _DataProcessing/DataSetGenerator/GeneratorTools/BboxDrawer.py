@@ -21,10 +21,6 @@ class BboxDrawer:
 
     def __init__(self, supporting_path, data_path, concatenation_path, image_extension, text_extension):
 
-        # extension of images
-        self.image_extension = image_extension
-        # extension of text files
-        self.text_extension = text_extension
         # directory path where images used for
         # bounding boxes creation are placed
         self.supporting_path = supporting_path
@@ -33,6 +29,10 @@ class BboxDrawer:
         self.data_path = data_path
         # directory path where concatenated images will be saved
         self.concatenation_path = concatenation_path
+        # extension of images
+        self.image_extension = image_extension
+        # extension of text files
+        self.text_extension = text_extension
 
         self.centroid_x = None
         self.centroid_y = None
