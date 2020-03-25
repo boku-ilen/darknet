@@ -10,10 +10,20 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
 
     # add positional arguments
-    parser.add_argument('command', help='', type=str, choices=['create', 'test', 'split', 'export'])
+    parser.add_argument('command', help='create: saves automatically extracted bounding boxes (using supporting images)'
+                                        'in text files, one file per image. Text files are placed in the folder'
+                                        'of images will be split into training and validation sets of data; '
+                                        'test: saves concatenated images: images for training/validation with '
+                                        'drawn bounding boxes and supporting images; split: moves images and text '
+                                        'files from data set into two folders: for training and validation data. '
+                                        'If a text file for the image is missing, the image remains in the original '
+                                        'folder; export: creates a text file with the list of all paths to images '
+                                        'which should be used for training or validation. Images paths must not be '
+                                        'the same as local, they should fit to the darknet structure',
+                        type=str, choices=['create', 'test', 'split', 'export'])
 
     # add optional arguments
-    parser.add_argument('-s,', '--supporting_path',
+    parser.add_argument('-s', '--supporting_path',
                         help='absolute or relative path to your folder with supporting images, '
                              'which are used to extract the bounding boxes',
                         type=str, default='_test_data/supporting_data/')
@@ -45,19 +55,20 @@ def parse_arguments():
                         help='lower border of hsv values, which will be accepted as blobs for bounding boxes, '
                              'default: {}'.format(HSV_UPPER), nargs='+', type=int)
     parser.add_argument('-vs', '--validation_split',
-                        help='the size of the validation data split, default: 0.2 '
-                             'which means 20% validation and 80% training data', type=float, default=0.2)
+                        help='the size of the validation data split in [0.0, 1.0] range, default: 0.2 '
+                             'which means 20 percent validation and 80 percent training data',
+                        type=restricted_float, default=0.2)
     parser.add_argument('-e', '--export_filename',
                         help='name of a text file which will be created to list all images for training '
                              'or validation. The file will be saved in the folder where listed images '
-                             'are currently placed. default=retour', type=str, default='retour')
+                             'are currently placed, default: retour', type=str, default='retour')
     parser.add_argument('-ep', '--export_path',
                         help='path where the images for training or validation will be placed in the darknet '
                              'structure. Remember to set different paths for training and validation data! '
-                             'default=data/retour/', type=str, default='data/retour/')
+                             'default: data/retour/', type=str, default='data/retour/')
     parser.add_argument('-es', '--export_data_set',
                         help='name of data set for which the final text file should be exporter, '
-                             'default=training', type=str, default='training', choices=['training', 'validation'])
+                             'default: training', type=str, default='training', choices=['training', 'validation'])
 
     parser_arguments = parser.parse_args()
 
@@ -68,3 +79,14 @@ def parse_arguments():
         parser_arguments.hsv_upper = HSV_UPPER
 
     return parser_arguments
+
+
+def restricted_float(x):
+    try:
+        x = float(x)
+    except ValueError:
+        raise argparse.ArgumentTypeError('{} is not a floating-point literal'.format(x))
+
+    if x < 0.0 or x > 1.0:
+        raise argparse.ArgumentTypeError('{} is not in range [0.0, 1.0]'.format(x))
+    return x
