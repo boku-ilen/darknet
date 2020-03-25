@@ -16,13 +16,13 @@ logger = logging.getLogger('MainLogger')
 
 try:
     logging.config.fileConfig('logging.conf')
-    logger.info('Logging initialized')
+    logger.info('logging initialized')
 except:
     logging.basicConfig(level=logging.INFO)
     if not os.path.isfile('logging.conf'):
-        logging.info('Could not find a configuration file: logging.conf')
+        logging.info('could not find a configuration file: logging.conf')
     else:
-        logging.info('Could not initialize: logging.conf misconfigured')
+        logging.info('could not initialize: logging.conf misconfigured')
 
 
 # this class contains a set of tools used for creation of training and validation sets of data,
@@ -35,7 +35,7 @@ class DataSetGenerator:
 
         # parse arguments, for meaning see --help
         parser_arguments = config.parse_arguments()
-        logging.info('Parsing arguments: {}'.format(parser_arguments))
+        logging.info('parsing arguments: {}'.format(parser_arguments))
         self.command = parser_arguments.command
         self.supporting_path = parser_arguments.supporting_path
         self.data_path = parser_arguments.data_path
@@ -53,7 +53,14 @@ class DataSetGenerator:
         self.export_data_set = parser_arguments.export_data_set
 
     def run(self):
-        logging.info('Command: {}'.format(self.command))
+
+        # control whether directories with data exist
+        for path in [self.supporting_path, self.data_path]:
+            if not os.path.isdir(path):
+                logging.error('directory with needed data does not exist: {}'.format(path))
+                raise FileNotFoundError('directory with needed data does not exist: {}'.format(path))
+
+        logging.info('command: {}'.format(self.command))
 
         # saves automatically extracted bounding boxes (using supporting images)
         # in text files, one file per image. Text files are placed in the folder

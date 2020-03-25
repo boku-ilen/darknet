@@ -82,7 +82,8 @@ class BboxDrawer:
             concat_output_image = np.concatenate((image, supporting_image), axis=1)
         else:
             # save only one image with bounding boxes, without concatenation
-            logging.warning('supporting image is not available, skipping concatenation for: {}'.format(filename))
+            logging.warning('supporting image is not available, '
+                            'skipping concatenation with: {}'.format(supporting_filename))
             concat_output_image = image
 
         # save concatenated images
@@ -91,4 +92,6 @@ class BboxDrawer:
             os.makedirs(self.concatenation_path)
         labeled_name = filename + self.image_extension
         path = self.concatenation_path + labeled_name
+
+        # TODO: add showing images and enable removing it from data set on click
         cv2.imwrite(path, concat_output_image)

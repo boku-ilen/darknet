@@ -54,6 +54,7 @@ class BboxCreator:
         supporting_filename = os.path.splitext(os.path.basename(file_path))[0]
         logging.info('creating bounding boxes for {}'.format(supporting_filename))
 
+        # TODO: images should have any name, now they must start with '1-'
         # replace 2- with 1- at the beginning of the filename
         new_filename = '1-' + supporting_filename[2:]
         text_name = new_filename + self.text_extension
@@ -84,27 +85,20 @@ class BboxCreator:
             # its centroid, and information about its orientation
             moments_dict = cv2.moments(contour)
 
-            # create a name for txt file if there is
+            # create a name for text file if there is
             # at least one contour with minimal accepted area
             if not file_opened and moments_dict['m00'] >= MIN_CONTOUR_AREA:
 
-                    # open the txt file
+                    # open the text file
                     self.text_file = open(self.data_path + text_name, 'w')
                     file_opened = True
 
             if file_opened:
                 # create a bounding box if the area is greater or equal minimum
                 if moments_dict['m00'] >= MIN_CONTOUR_AREA:
-                    # compute the centroid of the contour
-
                     x, y, w, h = cv2.boundingRect(contour)
+                    # add line to the file
                     self.write_line(x, y, w, h, supporting_image.shape)
-                    cv2.rectangle(supporting_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-
-        # TODO: add showing images and enable removing it from data set on click
-        #cv2.imshow("mask", mask)
-        #cv2.imshow("image", image)
-        #cv2.waitKey(0)
 
         if file_opened:
 
