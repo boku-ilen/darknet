@@ -63,6 +63,8 @@ cfg/yolov3_5l-retour.cfg
 
 # Data Processing
 *.idea
+*.pyc
+_DataProcessing/env/
 _DataProcessing/DataSetGenerator/__pycache__/*
 _DataProcessing/DataSetGenerator/GeneratorTools/__pycache__/*
 _DataProcessing/logs/*
