@@ -39,7 +39,7 @@ class FinalExporter:
             # check if an image is available
             if os.path.isfile(image_path):
                 # add image path to the string and then to the created text file
-                string += "{}{}{}\r".format(export_path, filename, self.image_extension)
+                string += "{}{}{}\n".format(export_path, filename, self.image_extension)
             else:
                 logging.warning('an image for the \'{}\' file is not available, '
                                 'the file will not be saved in the final text file'.format(filename))

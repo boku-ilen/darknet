@@ -117,4 +117,4 @@ class BboxCreator:
         height = float(h / image_shape[0])
         x_center = float(x / image_shape[1]) + float(width/2)
         y_center = float(y / image_shape[0]) + float(height/2)
-        self.string += '{} {} {} {} {}\r'.format(self.label, x_center, y_center, width, height)
+        self.string += '{} {} {} {} {}\n'.format(self.label, x_center, y_center, width, height)
