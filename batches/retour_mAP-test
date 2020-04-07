@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#SBATCH -J best_mAP-test
+#SBATCH -N 1
+#SBATCH --partition gpu_gtx1080single
+#SBATCH --qos gpu_gtx1080single
+#SBATCH --gres gpu:1
+#SBATCH --time=00:10:00
+
+# uncomment to receive a notification
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END 
+#SBATCH --mail-user=barbara.latosinska@boku.ac.at
+
+module purge
+module load cuda/10.0.130
+
+echo "CUDA_VISIBLE_DEVICES="$CUDA_VISIBLE_DEVICES
+echo "SLURM_JOBID="$SLURM_JOBID
+echo "SLURM_JOB_NODELIST="$SLURM_JOB_NODELIST
+echo "SLURM_NNODES="$SLURM_NNODES
+echo "SLURM_JOB_NAME"$SLURM_JOB_NAME
+echo "SLURM_SUBMIT_DIR="$SLURM_SUBMIT_DIR
+
+./darknet detector map data/retour_mAP-test.data cfg/yolov3-retour.cfg backup/yolov3-retour_best.weights
