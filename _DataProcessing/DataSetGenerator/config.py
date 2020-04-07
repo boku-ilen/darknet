@@ -11,8 +11,8 @@ def parse_arguments():
 
     # add positional arguments
     parser.add_argument('command', help='create: saves automatically extracted bounding boxes (using supporting images)'
-                                        'in text files, one file per image. Text files are placed in the folder'
-                                        'of images will be split into training and validation sets of data; '
+                                        ' in text files, one file per image. Text files are placed in the folder '
+                                        'of images which can be later split into training and validation sets of data; '
                                         'test: saves concatenated images: images for training/validation with '
                                         'drawn bounding boxes and supporting images; split: moves images and text '
                                         'files from data set into two folders: for training and validation data. '
@@ -67,7 +67,7 @@ def parse_arguments():
                              'structure. Remember to set different paths for training and validation data! '
                              'default: data/retour/', type=str, default='data/retour/')
     parser.add_argument('-es', '--export_data_set',
-                        help='name of data set for which the final text file should be exporter, '
+                        help='name of data set for which the final text file should be exported, '
                              'default: training', type=str, default='training', choices=['training', 'validation'])
 
     parser_arguments = parser.parse_args()

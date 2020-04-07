@@ -64,7 +64,7 @@ class DataSetGenerator:
 
         # saves automatically extracted bounding boxes (using supporting images)
         # in text files, one file per image. Text files are placed in the folder
-        # of images will be split into training and validation sets of data
+        # of images which can be later split into training and validation sets of data
         if self.command == 'create':
 
             # initialize the bounding boxes creator
