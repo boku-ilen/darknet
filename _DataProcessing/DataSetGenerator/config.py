@@ -48,6 +48,11 @@ def parse_arguments():
                         help='extension of your text files, default: .txt', type=str, default='.txt')
     parser.add_argument('-l', '--label',
                         help='label which will be given the bounding boxes, default: 0', type=int, default=0)
+    parser.add_argument('-sh', '--split_height',
+                        help='if an additional class for small object should be extracted, add object height in pixels '
+                             'which will be a border between classes. Objects higher than given split height will get a'
+                             'class \'label\' and smaller or equal to given split height will get a class \'label\'+1, '
+                             'default: 0, so all objects will be labeled as the same class', type=int, default=0)
     parser.add_argument('-hl', '--hsv_lower',
                         help='lower border of hsv values, which will be accepted as blobs for bounding boxes, '
                              'default: {}'.format(HSV_LOWER), nargs='+', type=int)

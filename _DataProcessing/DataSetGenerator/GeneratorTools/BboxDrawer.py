@@ -57,6 +57,7 @@ class BboxDrawer:
             if len(line_elements) != 5:
                 logging.error('incorrect number of elements saved in the text file: {}'.format(filename))
             else:
+                label = line_elements[0]
                 self.centroid_x = float(line_elements[1])
                 self.centroid_y = float(line_elements[2])
                 self.width = float(line_elements[3])
@@ -69,7 +70,13 @@ class BboxDrawer:
 
             x_left = x_center - int(w/2)
             y_top = y_center - int(h/2)
-            cv2.rectangle(image, (x_left, y_top), (x_left + w, y_top + h), (0, 0, 255), 2)
+
+            # TODO: automate colors for more classes if needed
+            # two different colors for two classes supported
+            color = (0, 0, 255)
+            if label == '1':
+                color = (255, 0, 0)
+            cv2.rectangle(image, (x_left, y_top), (x_left + w, y_top + h), color, 2)
 
         # concatenate images for training/validation with drawn bounding boxes and supporting images
         supporting_filename = '2-' + filename[2:]
@@ -92,6 +99,4 @@ class BboxDrawer:
             os.makedirs(self.concatenation_path)
         labeled_name = filename + self.image_extension
         path = self.concatenation_path + labeled_name
-
-        # TODO: add showing images and enable removing it from data set on click
         cv2.imwrite(path, concat_output_image)

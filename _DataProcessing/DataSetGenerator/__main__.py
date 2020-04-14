@@ -45,6 +45,7 @@ class DataSetGenerator:
         self.image_extension = parser_arguments.image_extension
         self.text_extension = parser_arguments.text_extension
         self.label = parser_arguments.label
+        self.split_height = parser_arguments.split_height
         self.hsv_lower = parser_arguments.hsv_lower
         self.hsv_upper = parser_arguments.hsv_upper
         self.validation_split = parser_arguments.validation_split
@@ -68,8 +69,8 @@ class DataSetGenerator:
         if self.command == 'create':
 
             # initialize the bounding boxes creator
-            bbox_creator = BboxCreator(self.supporting_path, self.data_path,
-                                       self.text_extension, self.label, self.hsv_lower, self.hsv_upper)
+            bbox_creator = BboxCreator(self.supporting_path, self.data_path, self.text_extension, self.label,
+                                       self.split_height, self.hsv_lower, self.hsv_upper)
 
             # set file paths to all the supporting images
             file_paths = self.set_file_paths(self.supporting_path, self.image_extension)
@@ -77,7 +78,18 @@ class DataSetGenerator:
             # for each image: create txt files
             # with the label and bounding boxes
             for file_path in file_paths:
-                bbox_creator.save_bboxes(file_path)
+
+                # TODO: images should have any name, now they must start with '1-'
+                # save a filename without an extension
+                filename = os.path.splitext(os.path.basename(file_path))[0]
+                # replace 2- with 1- at the beginning of the filename
+                new_filename = '1-' + filename[2:]
+
+                # check if image with the same name is available
+                if os.path.isfile(self.data_path + new_filename + self.image_extension):
+                    bbox_creator.save_bboxes(file_path)
+                else:
+                    logging.warning('an image {} is not available -> do not create a text file'.format(new_filename))
 
         # saves concatenated images: images for training/validation
         # with drawn bounding boxes and supporting images
