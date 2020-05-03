@@ -104,7 +104,7 @@ class BboxCreator:
 
                     x, y, w, h = cv2.boundingRect(contour)
                     if h < MIN_HEIGHT:
-                        logging.info('dimensions {}x{} to small for a bbox -> do not create'.format(w, h))
+                        logging.info('bbox dimensions in {}: {}x{} are to small for a bbox -> do not create'.format(supporting_filename, w, h))
                     else:
                         label = self.label
                         color = (0, 0, 255)
