@@ -1,6 +1,13 @@
-For applicability of this fork see [wiki!](https://github.com/boku-ilen/darknet/wiki)
+# Structure of this repository:
+* main part of this repository is a fork of AlexeyAB-darknet from 10.2.2020 with changes applied for the needs of projects at the University of Natural Resources and Life Sciences in Vienna
+* \_DataProcessing folder consists of DataSetGenerator tool, which can be used for semi-automated labeling of images generated with landscapelab tool, and short script for converting images from srgb to linear rgb
+* \_3DOFAnalysis folder is a collection of jupyter notebook scripts which focus on preprocessing, presenting and analysis of VR users head motion data aquired during workshops and a planned study. ImageDifferences script allows to define no movement times using VR images only (if motion data is available, its analysis can give similar results quicker)
+* \_GeodataProcessing folder contains jupyter notebook scripts used for labeled data preparation based on geodata in shapefile format (orthofoto, sectors and trees)
+* \_Docker folder was planned to collect dockerfiles used for this project, however, this technology eventually has not been used
+### For more details see [wiki!](https://github.com/boku-ilen/darknet/wiki) and inline documentation
 
-# Yolo-v3 and Yolo-v2 for Windows and Linux
+# Forked Readme:
+## Yolo-v3 and Yolo-v2 for Windows and Linux
 ### (neural network for object detection) - Tensor Cores can be used on [Linux](https://github.com/AlexeyAB/darknet#how-to-compile-on-linux) and [Windows](https://github.com/AlexeyAB/darknet#how-to-compile-on-windows-using-vcpkg)
 
 More details: http://pjreddie.com/darknet/yolo/
