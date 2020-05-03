@@ -6,9 +6,9 @@ import numpy as np
 from collections import Counter
 import pandas as pd
 
-
-# adapt folder path with images
-IMAGES_PATH = 'Results/Screenshots/'
+# adapt local project path
+LOCAL_PATH = ''
+IMAGES_PATH = LOCAL_PATH + 'Results/Screenshots/'
 # skip some images at the beginning if needed
 SKIP_IMAGES = 0#715
 # images can have different sizes,

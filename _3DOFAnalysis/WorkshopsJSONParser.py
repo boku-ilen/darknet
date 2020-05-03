@@ -1,7 +1,9 @@
 import json
 import os.path
 
-FILE_PATH = '../../../../../Praktikum_data/workshops/'
+# set local path to the project
+LOCAL_PATH = ''
+FILE_PATH = LOCAL_PATH + 'Results/Database/'
 ALL_DATA = 'all_data/'
 
 # uncomment for parsing location.impression
